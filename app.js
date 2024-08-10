@@ -30,22 +30,22 @@ const session=require('express-session');
 const mongoStore=require('connect-mongo');
 const flash= require('connect-flash');
 
-// using mongo store for seesions
-const store=mongoStore.create({
-  mongoUrl:dbUrl,
-  crypto:{
-    secret:process.env.SECRET
-  },
-  touchAfter:24*3600
-});
+// // using mongo store for seesions
+// const store=mongoStore.create({
+//   mongoUrl:dbUrl,
+//   crypto:{
+//     secret:process.env.SECRET
+//   },
+//   touchAfter:24*3600
+// });
 
-store.on('error',()=>{
-  console.log('error in mongo session store',err);
-});
+// store.on('error',()=>{
+//   console.log('error in mongo session store',err);
+// });
 
 // session boilerplate
 const sessionOptions={
-  store,
+  // store,
   secret:process.env.SECRET,
   saveUninitialized:true,
   resave:false,
@@ -62,8 +62,6 @@ const sessionOptions={
 // using express session and flash alerts
 app.use(session(sessionOptions));
 app.use(flash());
-
-
 
 
 // using passport for authentication
@@ -89,11 +87,11 @@ const userRouter=require('./routes/user.js');
 
 const review=require('./models/review.js');
 
-// const mongoUrl='mongodb://127.0.0.1:27017/trivago';
+const mongoUrl='mongodb://127.0.0.1:27017/trivago';
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect(dbUrl);
+  await mongoose.connect(mongoUrl);
 
 }
 app.listen(300,()=>{
